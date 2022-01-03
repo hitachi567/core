@@ -1,9 +1,9 @@
-import day from './day';
+import { day } from './day';
 
 /**
  * implements timer functions with saving in memory
  */
-export default class Timeout {
+export class Timeout {
 
     private timeouts = new Map<string, NodeJS.Timeout>();
 

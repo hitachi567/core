@@ -4,7 +4,7 @@
  * @param measure defines in which measure function will be returned
  * @returns 1 day in `measure`
  */
- export default function day(measure: 'ms' | 's' | 'm' | 'h') {
+export function day(measure: 'ms' | 's' | 'm' | 'h') {
     switch (measure) {
         case 'ms':
             return 24 * 60 * 60 * 1000;

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-export default class Hashing {
+export class Hashing {
 
     static hashing(string: string) {
 

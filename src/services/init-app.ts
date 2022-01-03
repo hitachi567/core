@@ -8,7 +8,7 @@ export interface AppOptions {
     cookieSecret: string
 }
 
-export default function initApp(options: AppOptions) {
+export function initApp(options: AppOptions) {
 
     let app = express();
 

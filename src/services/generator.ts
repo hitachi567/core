@@ -3,7 +3,7 @@ import { randomBytes, randomInt, randomUUID } from 'crypto';
 /**
  * represents methods based `crypto` module, which returns random value 
  */
-export default class Generator {
+export class Generator {
 
     /**
      * as same as `crypto.randomUUID`

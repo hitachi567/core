@@ -1,4 +1,4 @@
-import Generator from './generator';
+import { Generator } from './generator';
 import jwt from 'jsonwebtoken';
 
 export interface TokenPayload extends Record<string, string> { }
@@ -15,7 +15,7 @@ export interface SignOptions {
     refresh: jwt.SignOptions;
 }
 
-export default class JsonWebToken<Payload extends TokenPayload = TokenPayload> {
+export class JsonWebToken<Payload extends TokenPayload = TokenPayload> {
 
     constructor(protected secrets: JwtSecrets) {
 
