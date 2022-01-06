@@ -1,5 +1,4 @@
 
-export * from './async.middleware';
 export * from './day';
 export * from './generator';
 export * from './hashing';
