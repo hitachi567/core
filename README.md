@@ -24,62 +24,64 @@ yarn add @hitachi567/core
 ### Initialize express app
 
 ```typescript
-import { initApp } from '@hitachi567/core';
+import { initApp } from '@hitachi567/core'
 
 const app = initApp({
-    cookieSecret: 'secret'
-});
+  cookieSecret: 'secret',
+})
 
-app.listen(5000, () => console.log('listening on 5000...'));
+app.listen(5000, () => console.log('listening on 5000...'))
 ```
 
 ### Define middleware
 
 ```typescript
-import Lib from '@hitachi567/core';
-import { Router } from 'express';
+import Lib from '@hitachi567/core'
+import { Router } from 'express'
 
 interface Body {
-    username: string;
-    password: string;
+  username: string
+  password: string
 }
 
 interface Locals extends Lib.Locals {
-    hashedPassword: string;
+  hashedPassword: string
 }
 
-let tryPartOfMiddleware: Lib.Middleware<Body, Locals> = async (request, response, next) => {
+let tryPartOfMiddleware: Lib.Middleware<Body, Locals> = async (
+  request,
+  response,
+  next,
+) => {
+  let hashedPassword = await Lib.Hashing.hashing(request.body.password)
 
-    let hashedPassword = await Lib.Hashing.hashing(request.body.password);
+  response.locals.hashedPassword = hashedPassword
 
-    response.locals.hashedPassword = hashedPassword;
-
-    next();
-
+  next()
 }
 
-let middleware1 = Lib.asyncMiddleware<Body, Locals>(tryPartOfMiddleware);
+let middleware1 = Lib.asyncMiddleware<Body, Locals>(tryPartOfMiddleware)
 
-let middleware2: Lib.Middleware<Body, Locals> = async (request, response, next) => {
-    try {
-
-        await tryPartOfMiddleware(request, response, next);
-
-    } catch (error) {
-
-        next(error);
-
-    }
+let middleware2: Lib.Middleware<Body, Locals> = async (
+  request,
+  response,
+  next,
+) => {
+  try {
+    await tryPartOfMiddleware(request, response, next)
+  } catch (error) {
+    next(error)
+  }
 }
 
 function middleware3(): Lib.Middleware<Body, Locals> {
-    return Lib.asyncMiddleware<Body, Locals>(tryPartOfMiddleware);
+  return Lib.asyncMiddleware<Body, Locals>(tryPartOfMiddleware)
 }
 
 // the expressions below are equivalent to each other
-Router().use(middleware1);
-Router().use(middleware2);
-Router().use(middleware3());
+Router().use(middleware1)
+Router().use(middleware2)
+Router().use(middleware3())
 ```
 
 ## Links
