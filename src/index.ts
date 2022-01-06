@@ -1,3 +1,4 @@
 
-export * from './interfaces/index';
-export * from './services/index';
+export * from './interfaces';
+export * from './services';
+export * from './middlewares';
