@@ -1,6 +1,8 @@
 import { Generator } from './generator';
 import jwt from 'jsonwebtoken';
 
+export interface SignOptions extends jwt.SignOptions { }
+
 export interface TokenPayload extends Record<string, string> { }
 
 export interface JwtSecrets extends TokensPair { }
@@ -10,9 +12,9 @@ export interface TokensPair {
     refresh: string;
 }
 
-export interface SignOptions {
-    access: jwt.SignOptions;
-    refresh: jwt.SignOptions;
+export interface SignOptionsPair {
+    access: SignOptions;
+    refresh: SignOptions;
 }
 
 export class JsonWebToken<Payload extends TokenPayload = TokenPayload> {
@@ -36,7 +38,7 @@ export class JsonWebToken<Payload extends TokenPayload = TokenPayload> {
 
     }
 
-    generateTokensPair(payload: Payload, options: SignOptions): TokensPair {
+    generateTokensPair(payload: Payload, options: SignOptionsPair): TokensPair {
 
         return {
             access: jwt.sign(payload, this.secrets.access, options.access),
