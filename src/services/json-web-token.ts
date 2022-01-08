@@ -17,7 +17,7 @@ export interface SignOptionsPair {
     refresh: SignOptions;
 }
 
-export class JsonWebToken<Payload extends TokenPayload = TokenPayload> {
+export class JsonWebToken<Payload extends string | object | Buffer = TokenPayload> {
 
     constructor(protected secrets: JwtSecrets) {
 
