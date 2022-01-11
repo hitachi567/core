@@ -1,6 +1,6 @@
 {
     "name": "@hitachi567/core",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "basic interfaces, functions and classes for express app",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
