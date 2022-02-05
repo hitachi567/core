@@ -12,57 +12,103 @@ export class Timeout {
      * @param key identificator
      * @param callback asynchronous function that is executed when the timer expires
      */
-    setTimeout(key: string,
-        callback: (key: string) => Promise<void>): void;
+    setTimeout(
+        key: string,
+        callback: (key: string) => Promise<void>
+    ): Promise<void>;
     /**
      * sets a timer which executes a function once the timer expires
      * @param key identificator
      * @param callback asynchronous function that is executed when the timer expires
      * @param ms number of milliseconds after which the timer will expire
      */
-    setTimeout(key: string,
-        callback: (key: string) => Promise<void>, ms: number): void;
-    setTimeout(key: string,
-        callback: (key: string) => Promise<void>, ms?: number): void {
+    setTimeout(
+        key: string,
+        callback: (key: string) => Promise<void>,
+        ms: number
+    ): Promise<void>;
+    setTimeout(
+        key: string,
+        callback: (key: string) => Promise<void>,
+        ms?: number
+    ): Promise<void> {
 
-        if (typeof key !== 'string') {
-
-            throw new TypeError('key must be a string');
-
-        }
-
-        if (typeof callback !== 'function') {
-
-            throw new TypeError('callback must be a function');
-
-        }
+        this.validator_setTimeout(key, ms, callback);
 
         if (typeof ms === 'undefined') {
 
             ms = 7 * day('ms');
 
-        } else if (typeof ms !== 'number') {
+        }
+
+        return this._setTimeout(key, ms, callback);
+
+    }
+
+    protected validator_setTimeout(
+        key: string,
+        ms: number | undefined,
+        callback: (key: string) => Promise<void>
+    ) {
+
+        if (typeof key !== 'string') {
+
+            throw new TypeError('"key" must be a string');
+
+        }
+
+        if (typeof callback !== 'function') {
+
+            throw new TypeError('"callback" must be a function');
+
+        }
+
+        if (typeof ms !== 'number' && typeof ms !== 'undefined') {
 
             throw new TypeError('ms must be a number');
 
         }
 
+    }
+
+    protected _setTimeout(
+        key: string,
+        ms: number,
+        callback: (key: string) => Promise<void>
+    ): Promise<void> {
+
+        if (typeof ms === 'undefined') {
+
+            ms = 7 * day('ms');
+
+        }
+
         if (this.timeouts.has(key)) {
 
-            throw new Error('timeout already exists with this identificator');
+            throw new Error('timeout with this identificator already exists');
 
         }
 
-        let callbackWrapper = async () => {
-            try {
-                await callback(key);
-            } finally {
-                this.timeouts.delete(key);
+        return new Promise((resolve, reject) => {
+            let cb = () => {
+                try {
+
+                    callback(key).then(v => resolve(v));
+
+                } catch (error) {
+
+                    reject(error);
+
+                } finally {
+
+                    this.timeouts.delete(key);
+
+                }
             }
-        }
 
-        let timout = setTimeout(callbackWrapper, ms);
-        this.timeouts.set(key, timout);
+            let timout = setTimeout(cb, ms);
+            this.timeouts.set(key, timout);
+        });
 
     }
 
@@ -78,12 +124,10 @@ export class Timeout {
 
         const timeout = this.timeouts.get(key);
 
-        if (!timeout) {
-            throw new Error('timeout not found');
+        if (timeout) {
+            clearTimeout(timeout);
+            this.timeouts.delete(key);
         }
-
-        clearTimeout(timeout);
-        this.timeouts.delete(key);
 
     }
 
@@ -97,6 +141,14 @@ export class Timeout {
         );
         this.timeouts.clear();
 
+    }
+
+    get(key: string): NodeJS.Timeout | undefined {
+        return this.timeouts.get(key);
+    }
+
+    has(key: string): boolean {
+        return this.timeouts.has(key);
     }
 
 }
