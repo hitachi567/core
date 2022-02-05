@@ -15,13 +15,13 @@ export class Generator {
     }
 
     /**
-     * generates cryptographically strong pseudorandom sequense.
+     * generates cryptographically strong pseudorandom sequence.
      * based `crypto.randomBytes`
      * @param size number of characters in returned string.
      * The `size` is a multiple of 2.
      * The `size` must not be larger than `2 ** 32 - 2`
      */
-    static sequense(size: number) {
+    static sequence(size: number) {
         return randomBytes(size / 2).toString('hex');
     }
 

@@ -23,7 +23,7 @@ export function taggingMiddleware(): Middleware {
 
         } else {
 
-            fingerprint = Generator.sequense(32);
+            fingerprint = Generator.sequence(32);
 
         }
 

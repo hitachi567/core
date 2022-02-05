@@ -32,8 +32,8 @@ export class JsonWebToken<Payload extends string | object | Buffer = TokenPayloa
     static generateJwtSecrets(): JwtSecrets {
 
         return {
-            access: Generator.sequense(40),
-            refresh: Generator.sequense(40)
+            access: Generator.sequence(40),
+            refresh: Generator.sequence(40)
         }
 
     }
