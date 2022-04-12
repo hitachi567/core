@@ -20,7 +20,10 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'index.js',
-        clean: true
+        clean: true,
+        library: {
+            type: 'umd'
+        }
     },
     resolve: {
         extensions: ['.ts', '.js'],
