@@ -4,7 +4,7 @@ import {
     ValidatorOptions
 } from 'class-validator';
 
-export default class Validation {
+export class Validation {
 
     static async validate(
         object: object, validatorOptions?: ValidatorOptions

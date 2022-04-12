@@ -1,6 +1,6 @@
 import { IsInt } from 'class-validator';
 import { ServerError } from './server.error';
-import Validation from '../services/validation';
+import { Validation } from '../services';
 
 export class ApiError extends ServerError {
 

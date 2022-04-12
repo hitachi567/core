@@ -1,5 +1,5 @@
-import { IsOptional, IsString } from "class-validator";
-import Validation from '../services/validation';
+import { IsOptional, IsString } from 'class-validator';
+import { Validation } from '../services';
 
 export class ServerError {
 
